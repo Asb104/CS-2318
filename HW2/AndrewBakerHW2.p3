@@ -1,0 +1,175 @@
+#########################################
+# Andrew Baker HW1 Part 3 Oct 17,2018   #
+#########################################
+##############################################################################
+#Allocate a global array (i.e., space in t
+#he data segment) enough for storing 4 integers and initialize the array with
+#111, 222, 333 and 444 at the same time (i.e., 
+# DON'T first allocate uninitialized space for array and later write 
+# code to put the values into array).
+#	⇒	Display a labeled output about the array's 
+#initial contents (from 1st to 4th element).
+#	⇒	Re-order the values in the array so that the 
+#contents of the array in memory (from 1st to 4th element) 
+#become 333, 444, 111 and 222, using the following operations 
+#in the order listed (to not defeat the goals of this exercise, 
+#you must NOT change the specified operations and order, even if 
+# doing so will accomplish the same effect more efficiently):
+#	Swap the contents in memory of the 1st and 3rd elements of the array.
+#	Swap the contents in memory of the 2nd and 4th elements of the array.
+#
+#IMPORTANT (for the purpose of this exercise):
+#When performing each of the swapping operations above, 
+#you can re-use the array's base address in register (loaded 
+#when performing an earlier operation) but you MUST re-load 
+#the values of the associated array elements fresh 
+#from memory (i.e., assuming no knowledge that 
+#certain values might have already existed in some 
+#registers due to prior operations).
+#	⇒	Display a labeled output about the array's contents 
+#(from 4th to 1st element) after the 2 swapping operations above.
+##############################################################################
+
+		.data
+newLine:	.asciiz "\n"
+PromptiArr:	.asciiz "ARRAY CONTAINS:"
+PromptSwap:	.asciiz "SWAPPED ARRAY CONTAINS:"
+e1:		.asciiz "ELEMENT 1:"
+e2:		.asciiz "ELEMENT 2:"
+e3:		.asciiz "ELEMENT 3:"
+e4:		.asciiz "ELEMENT 4:"
+iArr:		.word 1111, 2222, 3333, 4444
+
+#########################################################################################
+
+		.text
+		.globl main 
+main:
+		la $a0 PromptiArr	#print array prompt
+		li $v0, 4 
+		syscall
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall
+		
+		la $t0, iArr		#load Address
+		
+		la $a0 e1		#print array element 1
+		li $v0, 4 
+		syscall
+		
+		li $v0, 1		
+		lw $a0,0($t0)
+		syscall			#print element 0
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall
+		
+		la $a0 e2		#print array element 2
+		li $v0, 4 
+		syscall
+		
+		li $v0, 1		
+		lw $a0,4($t0)
+		syscall			#print element 1
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall	
+		
+		la $a0 e3		#print array element 3
+		li $v0, 4 
+		syscall	
+		
+		li $v0, 1		
+		lw $a0,8($t0)
+		syscall			#print element 2
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall	
+		
+		la $a0 e4		#print array element 4
+		li $v0, 4 
+		syscall	
+		
+		li $v0, 1		
+		lw $a0,12($t0)
+		syscall			#print element 3
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall
+		
+##############################################################################
+#############SWAPPING METHODS#################################################
+##############################################################################
+		la $t0, iArr		#load address to t0
+		
+		lw $t1, 0($t0)		#load element 0 to t1
+		lw $t2, 8($t0)		#load element 2 to t2
+		sw $t2, 0($t0)		#swap element 2 to 0
+		sw $t1, 8($t0)		#swat element 0 to 2
+
+		lw $t3, 4($t0)		#load element 0 to t1
+		lw $t4, 12($t0)		#load element 2 to t2
+		sw $t4, 4($t0)		#swap element 2 to 0
+		sw $t3, 12($t0)		#swat element 0 to 2
+##############################################################################
+##############################################################################
+##############################################################################
+		la $a0 PromptSwap	#print array prompt
+		li $v0, 4 
+		syscall
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall
+		
+		la $t0, iArr		#load Address
+		
+		la $a0 e1		#print array element 1
+		li $v0, 4 
+		syscall
+		
+		li $v0, 1		
+		lw $a0,0($t0)
+		syscall			#print element 0
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall
+		
+		la $a0 e2		#print array element 2
+		li $v0, 4 
+		syscall
+		
+		li $v0, 1		
+		lw $a0,4($t0)
+		syscall			#print element 1
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall	
+		
+		la $a0 e3		#print array element 3
+		li $v0, 4 
+		syscall	
+		
+		li $v0, 1		
+		lw $a0,8($t0)
+		syscall			#print element 2
+		
+		la $a0 newLine		#new Line 
+		li $v0, 4 
+		syscall	
+		
+		la $a0 e4		#print array element 4
+		li $v0, 4 
+		syscall	
+		
+		li $v0, 1		
+		lw $a0,12($t0)
+		syscall			#print element 3
